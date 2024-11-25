@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './styles.css';
+#toast {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  #toast.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .filter-button {
+    transition: background-color 0.3s ease;
+  }
+
+  .filter-button:hover {
+    background-color: #fbbf24;
+  }
+
+  #cartItems {
+    max-height: 800px; /* Tentukan tinggi maksimal */
+    overflow-y: auto;  /* Tambahkan scroll jika item lebih banyak */
+  }
+  
+  @media (max-width: 768px) {
+    #cartItems {
+      max-height: calc(100vh - 170px); /* Tinggi dinamis untuk mobile */
+    }
+  }
