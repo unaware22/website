@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'background': "url('/img/wagyu.jpg')",
+        'background': "url('/img/wagyu (3).jpg')",
       },
       lineHeight: {
         tight: '0.8',
