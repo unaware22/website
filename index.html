@@ -11,7 +11,7 @@
 
 <body class="bg-[#26282A] font-customFont4 scroll-smooth">
     <!-- Background -->
-    <section id="home" class="relative bg-no-repeat bg-cover bg-center text-white min-h-screen bg-background">
+    <section id="home" class="relative bg-no-repeat bg-cover bg-center text-white min-h-screen bg-background" loading="lazy">
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/30"></div>
 
@@ -27,7 +27,7 @@
                     <a href="#menu" class="hover:text-gray-500">Menu</a>
                     <a href="#" class="hover:text-gray-500">Contact Us</a>
                 </nav>
-                <button class="bg-white text-gray-800 px-4 py-2 rounded-sm font-bold">Book Online</button>
+                <button class="bg-white text-gray-800 px-4 py-2 rounded-sm font-bold">Order Now</button>
             </div>
 
             <!-- Navbar Menu (mobile) -->
@@ -52,7 +52,7 @@
         <!-- Hero Content -->
         <div class="relative z-10 flex flex-col justify-center items-center text-center h-[70vh] px-4">
             <h1 class="text-[6rem] sm:text-[8rem] md:text-[9rem] lg:text-[12rem] xl:text-[13rem] font-bold leading-tight text-custom font-customFont3">RESTO <br> KEMANG</h1>
-            <button class="mt-6 bg-white text-black px-6 py-3 rounded-lg font-semibold text-lg md:hidden">Book Online</button>
+            <button class="mt-6 bg-white text-black px-6 py-3 rounded-lg font-semibold text-lg md:hidden">Order Now</button>
         </div>
 
            <!-- Operating Hours -->
@@ -249,7 +249,7 @@
           </button>
           <div class="p-4">
             <h3 class="text-xl font-semibold mb-2 text-white">Chanko Nabe</h3>
-            <p class="text-gray-400">Hot pot yang bernutrisi, berisi daging, sayuran, dan tahu dalam kuah kaldu yang hangat.</p>
+            <p class="text-gray-400">Hot pot yang bernutrisi, berisi daging, sayuran, dan tahu dalam kuah kaldu hangat.</p>
           </div>
           <div class="p-4 border-t border-gray-500 flex justify-between items-center">
             <div class="flex items-center">
@@ -339,7 +339,7 @@
           </button>
           <div class="p-4">
             <h3 class="text-xl font-semibold mb-2 text-white">Spicy Curry Roka</h3>
-            <p class="text-gray-400">Kari pedas khas Jepang dengan rasa otentik, cocok bagi pecinta makanan bercita rasa kuat.</p>
+            <p class="text-gray-400">Kari pedas khas Jepang dengan rasa otentik, cocok bagi pecinta rasa kuat.</p>
           </div>
           <div class="p-4 border-t border-gray-500 flex justify-between items-center">
             <div class="flex items-center">
@@ -384,7 +384,7 @@
           </button>
           <div class="p-4">
             <h3 class="text-xl font-semibold mb-2 text-white">Soba Noodle</h3>
-            <p class="text-gray-400">Mie tipis yang disajikan dingin dengan saus celup atau panas dalam kuah beraroma khas.</p>
+            <p class="text-gray-400">Mie tipis yang disajikan dingin dengan saus panas dalam kuah beraroma khas.</p>
           </div>
           <div class="p-4 border-t border-gray-500 flex justify-between items-center">
             <div class="flex items-center">
@@ -738,7 +738,7 @@
           </button>
           <div class="p-4">
             <h3 class="text-xl font-semibold mb-2 text-white">Uuroncha</h3>
-            <p class="text-gray-400">Teh oolong Jepang yang memiliki rasa ringan dan menyegarkan, baik panas maupun dingin.</p>
+            <p class="text-gray-400">Teh oolong Jepang yang memiliki rasa ringan dan menyegarkan.</p>
           </div>
           <div class="p-4 border-t border-gray-500 flex justify-between items-center">
             <div class="flex items-center">
@@ -826,7 +826,7 @@
           </button>
           <div class="p-4">
             <h3 class="text-xl font-semibold mb-2 text-white">Ocha</h3>
-            <p class="text-gray-400">Teh hijau klasik Jepang dengan rasa alami dan menenangkan, disajikan panas atau dingin.</p>
+            <p class="text-gray-400">Teh hijau klasik Jepang dengan rasa alami, disajikan panas atau dingin.</p>
           </div>
           <div class="p-4 border-t border-gray-500 flex justify-between items-center">
             <div class="flex items-center">
@@ -902,9 +902,10 @@
   <script src="script.js">
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
+   
   <script>
-  const toggleCartButton = document.getElementById('toggleCartButton');
+    
+const toggleCartButton = document.getElementById('toggleCartButton');
   const closeCartButton = document.getElementById('closeCartButton');
   const cartSidebar = document.getElementById('cartSidebar');
   const cartItems = document.getElementById('cartItems');
@@ -1062,39 +1063,14 @@
 
   // Initial render
   renderCartItems();
- </script>
-    <script>
-    // Get filter buttons and menu items
-    const filterButtons = document.querySelectorAll('.filter-button');
-    const menuItems = document.querySelectorAll('.menu-item');
+  </script>
 
-    // Add event listener to each filter button
-    filterButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const filter = button.getAttribute('data-filter');
-
-    // Highlight active button
-    filterButtons.forEach((btn) => btn.classList.remove('bg-yellow-500'));
-    button.classList.add('bg-yellow-500');
-
-    // Show/Hide menu items based on filter
-    menuItems.forEach((item) => {
-    if (filter === 'all' || item.getAttribute('data-category') === filter) {
-        item.style.display = 'block';
-        } else {
-        item.style.display = 'none';
-        }
-      });
-    });
-  });
-
-    </script>
-
-    
 <script>
-  const API_KEY = "2GPw3B19CI1Ogg3rDgvUuZidCemshPLP";
+// API JADWAL
+const API_KEY = '1aae3fba4ac64352ba3bc853b0f65389';  // Ganti dengan API Key Anda
 
-fetch(`http://localhost:3000/api/schedule?api_key=${API_KEY}`)
+// Mendapatkan jadwal buka restoran berdasarkan koordinat
+fetch(`https://api.opencagedata.com/geocode/v1/json?q=-6.2088,106.8456&key=${API_KEY}`)
     .then(response => response.json())
     .then(data => {
         if (data.error) {
@@ -1102,37 +1078,51 @@ fetch(`http://localhost:3000/api/schedule?api_key=${API_KEY}`)
             return;
         }
 
-        const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-        const today = new Date().getDay();
-        const nextDay = (today + 1) % 7;
-        const selectedDays = [daysOfWeek[today], daysOfWeek[nextDay]];
+// Mendapatkan zona waktu restoran
+const timezone = data.results[0].annotations.timezone.name;
+        
+// Mengambil jadwal buka sesuai zona waktu
+const schedule = {
+"Asia/Jakarta": {
+    "sunday": "10:00 - 21:00",
+    "monday": "09:00 - 22:00",
+    "tuesday": "09:00 - 22:00",
+    "wednesday": "09:00 - 22:00",
+    "thursday": "09:00 - 22:00",
+    "friday": "09:00 - 23:00",
+    "saturday": "10:00 - 23:00"
+    }
+};
 
-        const scheduleContainer = document.querySelector('.space-y-2');
-        scheduleContainer.innerHTML = '';
+// Mengambil hari-hari untuk ditampilkan
+const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+const today = new Date().getDay();
+const nextDay = (today + 1) % 7;
+const selectedDays = [daysOfWeek[today], daysOfWeek[nextDay]];
 
-        selectedDays.forEach((day) => {
-            const scheduleDiv = document.createElement('div');
-            const isClosed = data[day].toLowerCase() === "closed";
+const scheduleContainer = document.querySelector('.space-y-2');
+scheduleContainer.innerHTML = '';  // Kosongkan kontainer sebelum menambahkan data baru
 
-            scheduleDiv.className = `
-                flex flex-col md:flex-row sm360:flex-row items-center justify-between gap-4 
-                p-2 rounded-md border ${isClosed ? 'bg-white text-black' : 'bg-transparent text-white'}
-            `;
-            scheduleDiv.innerHTML = `
-                <p class="font-bold sm360:text-sm md:text-lg xl:text-xl">${day.toUpperCase()}</p>
-                <p class="sm360:text-sm md:text-lg xl:text-xl">${data[day]}</p>
-            `;
-            scheduleContainer.appendChild(scheduleDiv);
-        });
-    })
-    .catch(error => console.error("Failed to fetch schedule:", error));
+selectedDays.forEach((day, index) => {
+const scheduleDiv = document.createElement('div');
 
-</script>
+// Menentukan gaya background untuk hari pertama dan kedua
+const isFirstDay = index === 0;  // Hari pertama (misalnya hari ini)
+const backgroundClass = isFirstDay ? 'bg-white text-black' : 'bg-transparent text-white';
 
+    scheduleDiv.className = `
+        flex flex-col md:flex-row sm360:flex-row items-center justify-between gap-4 
+        p-2 rounded-md border ${backgroundClass}
+        `;
+    scheduleDiv.innerHTML = `
+        <p class="font-bold sm360:text-sm md:text-lg xl:text-xl">${day.toUpperCase()}</p>
+        <p class="sm360:text-sm md:text-lg xl:text-xl">${schedule[timezone][day]}</p>
+        `;
+    scheduleContainer.appendChild(scheduleDiv);
+    });
+})
+.catch(error => console.error("Failed to fetch schedule:", error));
+  </script>
 
-
-    
-  
 </body>
-
 </html>
