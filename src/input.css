@@ -3,16 +3,7 @@
 @tailwind utilities;
 
 @import './styles.css';
-#toast {
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  #toast.show {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  
+
   .filter-button {
     transition: background-color 0.3s ease;
   }
