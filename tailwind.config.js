@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['index.html'],
+  content: ['index.html', 'script.js'],
   theme: {
     extend: {
       backgroundImage: {
@@ -30,11 +30,18 @@ module.exports = {
         'customFont2': ['CustomFont2', 'sans-serif'],
         'customFont3': ['CustomFont3', 'sans-serif'],
         'customFont4': ['CustomFont4', 'sans-serif'],
+        'BebasNeue' : ['Bebas Neue', 'sans-serif'],
+        'Dramaturg' : ['Dramaturg', 'sans-serif'],
+        'Kamerik205' : ['Kamerik205','sans-serif'],
+        'Kamerik205Bold' : ['Kamerik205Bold','sans-serif']
+
       },
       screens: {
         'sm360': '360px',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }
