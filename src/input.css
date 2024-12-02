@@ -25,3 +25,6 @@
       max-height: calc(100vh - 170px); 
     }
   }
+  #home {
+    background-image: url('/img/wagyu (3).jpg');
+  }
