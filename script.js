@@ -1,16 +1,13 @@
 // Toggle
-const hamburgerBtn = document.getElementById('navbar-btn');
+const navbarBtn = document.getElementById('navbar-btn');
 const mobileMenu = document.getElementById('mobile-menu');
 
-hamburgerBtn.addEventListener('click', () => {
+navbarBtn.addEventListener('click', () => {
     mobileMenu.classList.toggle('hidden');
     
 });
 
-
 // Filter Button
-
-// Get filter buttons and menu items
 const filterButtons = document.querySelectorAll('.filter-button');
 const menuItems = document.querySelectorAll('.menu-item');
 
@@ -50,15 +47,13 @@ filterButtons.forEach((button) => {
 
 
 
-
-// CART
- 
+  // CART
   const toggleCartButton = document.getElementById('toggleCartButton');
   const closeCartButton = document.getElementById('closeCartButton');
   const cartSidebar = document.getElementById('cartSidebar');
   const cartItems = document.getElementById('cartItems');
   const cartTotal = document.getElementById('cartTotal');
-  const checkoutButton = document.getElementById('checkoutButton');
+  const checkoutButton1 = document.getElementById('checkoutButton');
 
   let cart = JSON.parse(localStorage.getItem('cart')) || []; // Load cart from localStorage
 
@@ -150,63 +145,111 @@ filterButtons.forEach((button) => {
   }
 
   // Render cart items
-  function renderCartItems() {
-    cartItems.innerHTML = ''; // Clear previous items
+function renderCartItems() {
+  cartItems.innerHTML = ''; // Clear previous items
 
-    let total = 0;
+  let subtotal = 0;
+  const taxRate = 0.1; // 10% tax rate
+  let tax = 0;
+  let total = 0;
 
-    cart.forEach((item, index) => {
-      const { name, price, image, quantity } = item;
-      total += price * quantity;
+  cart.forEach((item, index) => {
+    const { name, price, image, quantity } = item;
+    subtotal += price * quantity;
 
-      const itemElement = document.createElement('div');
-      itemElement.classList.add('flex', 'items-center', 'justify-between', 'bg-gray-800', 'p-4', 'rounded', 'mb-2');
+    const itemElement = document.createElement('div');
+    itemElement.classList.add('flex', 'items-center', 'justify-between', 'bg-gray-800', 'p-4', 'rounded', 'mb-2');
 
-      itemElement.innerHTML = `
-        <div class="flex items-center">
-          <img src="${image}" alt="${name}" class="w-16 h-16 object-cover rounded mr-4">
-          <div>
-            <h3 class="font-semibold">${name}</h3>
-            <p class="text-sm text-gray-400">Rp. ${price.toLocaleString('id-ID')} x ${quantity}</p>
-          </div>
+    itemElement.innerHTML = `
+      <div class="flex items-center">
+        <img src="${image}" alt="${name}" class=" xl:w-36 xl:h-36 sm360:w-16 sm360:h-16 object-cover rounded mr-4">
+        <div>
+          <h3 class="font-semibold">${name}</h3>
+          <p class="text-sm text-gray-400">Rp. ${price.toLocaleString('id-ID')} x ${quantity}</p>
         </div>
-        <div class="flex items-center">
-          <button class="px-2 py-1 text-sm bg-gray-700 text-white rounded mr-2" onclick="decreaseQuantity(${index})">-</button>
-          <button class="px-2 py-1 text-sm bg-gray-700 text-white rounded" onclick="increaseQuantity(${index})">+</button>
-          <button 
-            class="ml-4 text-red-500 hover:text-red-700 transition"
-            onclick="removeFromCart(${index})">
-            Remove
-          </button>
-        </div>
-      `;
+      </div>
+      <div class="flex items-center">
+        <button class="px-2 py-1 text-sm bg-gray-700 text-white rounded mr-2" onclick="decreaseQuantity(${index})">-</button>
+        <button class="px-2 py-1 text-sm bg-gray-700 text-white rounded" onclick="increaseQuantity(${index})">+</button>
+        <button 
+          class="ml-4 text-red-500 hover:text-red-700 transition"
+          onclick="removeFromCart(${index})">
+          Remove
+        </button>
+      </div>
+    `;
 
-      cartItems.appendChild(itemElement);
-    });
+    cartItems.appendChild(itemElement);
+  });
 
-    cartTotal.textContent = `Rp. ${total.toLocaleString('id-ID')}`;
-  }
+  // Calculate tax and total
+  tax = subtotal * taxRate;
+  total = subtotal + tax;
+
+  // Display totals
+  cartTotal.innerHTML = `
+    <div class="text-sm text-gray-400 mb-2">Subtotal: Rp. ${subtotal.toLocaleString('id-ID')}</div>
+    <div class="text-sm text-gray-400 mb-2">Tax (10%): Rp. ${tax.toLocaleString('id-ID')}</div>
+    <div class="text-lg font-bold">Total: Rp. ${total.toLocaleString('id-ID')}</div>
+  `;
+}
+
 
   // Checkout
-  checkoutButton.addEventListener('click', () => {
+  checkoutButton1.addEventListener('click', () => {
+    if (!tableBooked) {
+      Swal.fire({
+        title: "Booking Required",
+        text: "Please book a table before proceeding to checkout.",
+        icon: "warning",
+      });
+      return;
+    }
+
     if (cart.length === 0) {
       Swal.fire({
         title: "Error",
-        text: "Your Cart is Empty",
+        text: "Your cart is empty.",
         icon: "error",
       });
       return;
     }
 
+    // Confirm checkout
     Swal.fire({
-      title: "Thank you for your purchase!",
-      text: `Total: Rp. ${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString('id-ID')}`,
-      icon: "success",
-    });
+      title: "Are you sure?",
+      text: `Do you want to complete the payment of Rp. ${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString('id-ID')}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, pay now!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Payment Successful",
+          text: "Thank you for your purchase!",
+          icon: "success",
+        });
 
-    cart = [];
-    saveCart();
-    renderCartItems();
+        // Reset cart and booking
+        cart = [];
+        saveCart();
+        renderCartItems();
+
+        // Reset table booking
+        tableBooked = false;
+        bookTableBtn.disabled = false;
+        bookTableBtn.textContent = "Book Table";
+        bookTableBtn.classList.remove('bg-gray-500', 'cursor-not-allowed');
+
+        // Deselect table
+        if (selectedTable) {
+          selectedTable.classList.remove('bg-green-300');
+          selectedTable = null;
+        }
+      }
+    });
   });
 
   // Initial render
@@ -271,110 +314,61 @@ const backgroundClass = isFirstDay ? 'bg-white text-black' : 'bg-transparent tex
 
 
 // Book table
-const initTables = () => {
-  if (!localStorage.getItem("tables")) {
-    const defaultTables = [
-      { id: 1, status: "Available" },
-      { id: 2, status: "Available" },
-      { id: 3, status: "Available" },
-      { id: 4, status: "Available" },
-      { id: 5, status: "Available" },
-      { id: 6, status: "Available" },
-      { id: 7, status: "Available" },
-      { id: 8, status: "Booked" },
-    ];
-    localStorage.setItem("tables", JSON.stringify(defaultTables));
-  }
-};
+  // Booking Table Logic
+  const bookTableBtn = document.getElementById('bookTableBtn');
+  const tableModal = document.getElementById('tableModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const bookNowBtn = document.getElementById('bookNowBtn');
+  const tableButtons = document.querySelectorAll('.table-btn');
+  let selectedTable = null; // Track selected table
+  let tableBooked = false; // Track booking status
 
-// Mendapatkan data meja dari Local Storage
-const fetchTables = () => {
-  return JSON.parse(localStorage.getItem("tables"));
-};
-
-// Memperbarui status meja di Local Storage
-const updateTableStatus = (tableId, status) => {
-  const tables = fetchTables();
-  const tableIndex = tables.findIndex((table) => table.id === tableId);
-
-  if (tableIndex !== -1) {
-    tables[tableIndex].status = status;
-    localStorage.setItem("tables", JSON.stringify(tables));
-
-    // Gunakan SweetAlert untuk notifikasi
-    Swal.fire({
-      title: `Table ${tableId} has been ${status.toLowerCase()}!`,
-      icon: "success",
-      confirmButtonText: "OK",
-    }).then(() => {
-      renderTables();
-    });
-  } else {
-    Swal.fire({
-      title: "Error!",
-      text: "Table not found!",
-      icon: "error",
-      confirmButtonText: "OK",
-    });
-  }
-};
-
-// Menampilkan daftar meja di halaman
-const renderTables = () => {
-  const tables = fetchTables();
-  const container = document.getElementById("tables");
-  container.innerHTML = ""; // Kosongkan elemen sebelumnya
-
-  tables.forEach((table) => {
-    const tableDiv = document.createElement("div");
-    tableDiv.className = `flex flex-col items-center justify-center p-4 rounded-lg shadow ${
-      table.status === "Available"
-        ? "bg-table-available text-green-700 bg-[#1d1d1d] hover:bg-green-800 cursor-pointer"
-        : "bg-table-booked text-red-700 bg-[#1d1d1d] cursor-not-allowed"
-    }`;
-
-    tableDiv.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12h12M6 16h12M6 8h12" />
-      </svg>
-      <span>Table ${table.id}</span>
-    `;
-
-    if (table.status === "Available") {
-      tableDiv.addEventListener("click", () => {
-        Swal.fire({
-          title: `Do you want to book Table ${table.id}?`,
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonText: "Yes",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            updateTableStatus(table.id, "Booked");
-          }
-        });
-      });
-    }
-
-    container.appendChild(tableDiv);
+  // Show modal
+  bookTableBtn.addEventListener('click', () => {
+    tableModal.classList.remove('hidden');
   });
-};
 
-// Tampilkan atau sembunyikan slide-in daftar meja
-const toggleSlide = (isOpen) => {
-  const slide = document.getElementById("table-slide");
-  const trigger = document.getElementById("table-trigger");
+  // Close modal
+  closeModalBtn.addEventListener('click', () => {
+    tableModal.classList.add('hidden');
+  });
 
-  slide.classList.toggle("-translate-x-full", !isOpen);
-  trigger.classList.toggle("hidden", isOpen);
-};
+  // Select table
+  tableButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (button.disabled) return; // Skip disabled tables
 
-// Event Listener untuk tombol trigger
-document.getElementById("table-trigger").addEventListener("click", () => toggleSlide(true));
+      // Deselect previously selected table
+      if (selectedTable) {
+        selectedTable.classList.remove('bg-green-300');
+      }
 
-// Event Listener untuk tombol close
-document.getElementById("close-slide").addEventListener("click", () => toggleSlide(false));
+      // Select new table
+      selectedTable = button;
+      selectedTable.classList.add('bg-green-300');
 
-// Inisialisasi saat halaman dimuat
-initTables();
-renderTables();
+      // Enable "Book Now" button
+      bookNowBtn.disabled = false;
+    });
+  });
+
+  // Book the table
+  bookNowBtn.addEventListener('click', () => {
+    if (selectedTable) {
+      Swal.fire({
+        title: `Table ${selectedTable.dataset.tableId} booked successfully!`,
+        icon: "success",
+      });
+
+      tableModal.classList.add('hidden');
+
+      // Mark table as booked
+      bookTableBtn.disabled = true;
+      bookTableBtn.textContent = `Table ${selectedTable.dataset.tableId} Booked`;
+      bookTableBtn.classList.add('bg-gray-500', 'cursor-not-allowed');
+      tableBooked = true; // Update booking status
+    }
+  });
+
+  
+
